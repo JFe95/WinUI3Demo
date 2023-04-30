@@ -97,6 +97,7 @@ namespace WinUI3Demo
             {
                 PasswordErrorTextBlock.Text = "Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, and one number";
                 SetErrorPasswordBoxFormatting(PasswordTextBox);
+                return false;
             }
             return true;
         }
