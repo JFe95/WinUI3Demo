@@ -3,42 +3,40 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using System.Linq;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml.Controls;
-using Windows.Devices.Enumeration;
 using System;
 
 namespace WinUI3Demo
 {
     public sealed partial class MainWindow : Window
     {
-        private AppWindow _apw;
+        private AppWindow _appWindow;
         private OverlappedPresenter _presenter;
 
 
         public MainWindow()
         {
             this.InitializeComponent();
-            this.ExtendsContentIntoTitleBar = true;
             GetAppWindow();
-            _apw.Resize(new Windows.Graphics.SizeInt32 { Width = 500, Height = 570 });
+            _appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 500, Height = 570 });
             _presenter.IsMaximizable = false;
             _presenter.IsMinimizable = false;
             _presenter.IsResizable = false;
-
+            _presenter.SetBorderAndTitleBar(false, false);
         }
 
         public void GetAppWindow()
         {
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             WindowId myWndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-            _apw = AppWindow.GetFromWindowId(myWndId);
-            _presenter = _apw.Presenter as OverlappedPresenter;
+            _appWindow = AppWindow.GetFromWindowId(myWndId);
+            _presenter = _appWindow.Presenter as OverlappedPresenter;
         }
 
         private void OnLoginButtonClick(object sender, RoutedEventArgs e)
         {
-            if (ValidateLogin()) DisplaySuccessDialog();
+            if (ValidateLogin()) 
+                DisplaySuccessDialog();
         }
 
         private async void DisplaySuccessDialog()
@@ -47,23 +45,23 @@ namespace WinUI3Demo
             {
                 Title = "Success",
                 Content = "Account created",
-                CloseButtonText = "OK"              
+                CloseButtonText = "OK",
+                XamlRoot = MainPanel.XamlRoot
             };
-            //set the XamlRoot property
-            dialog.XamlRoot = MainPanel.XamlRoot;
 
             await dialog.ShowAsync();
             Application.Current.Exit();
-
         }
 
         private void OnEmailTextChanged(object sender, RoutedEventArgs e)
         {
+            SetDefaultTextBoxFormatting((Control)sender);
             UsernameErrorTextBlock.Text = string.Empty;
         }
 
         private void OnPasswordTextChanged(object sender, RoutedEventArgs e)
         {
+            SetDefaultTextBoxFormatting((Control)sender);
             PasswordErrorTextBlock.Text = string.Empty;
         }
 
@@ -73,7 +71,8 @@ namespace WinUI3Demo
         {
             if (string.IsNullOrEmpty(UsernameTextBox.Text))
             {
-                UsernameErrorTextBlock.Text = "Email cannot be empty";
+                UsernameErrorTextBlock.Text = "Email is a required field";
+                SetDefaultTextBoxFormatting(UsernameTextBox);
                 return false;
             }
             return true;
@@ -83,14 +82,27 @@ namespace WinUI3Demo
         {
             if (string.IsNullOrEmpty(PasswordTextBox.Password))
             {
-                PasswordErrorTextBlock.Text = "Password cannot be empty";
+                PasswordErrorTextBlock.Text = "Password is a required field";
+                SetErrorTextBoxFormatting(PasswordTextBox);
                 return false;
             }
+
             if(!IsStrongPassword(PasswordTextBox.Password))
             {
                 PasswordErrorTextBlock.Text = "Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, and one number";
+                SetErrorTextBoxFormatting(PasswordTextBox);
             }
             return true;
+        }
+
+        private void SetDefaultTextBoxFormatting(Control textBox)
+        {
+            textBox.Style = (Style)Application.Current.Resources["TextBoxStyle"];
+        }
+
+        private void SetErrorTextBoxFormatting(Control textBox)
+        {
+            textBox.Style = (Style)Application.Current.Resources["TextBoxErrorStyle"];
         }
 
         private bool IsStrongPassword(string password)
@@ -101,6 +113,11 @@ namespace WinUI3Demo
             if (!password.Any(c => char.IsDigit(c))) return false; // must include a number
 
             return true;
+        }
+
+        private void Button_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+
         }
     }
 }
