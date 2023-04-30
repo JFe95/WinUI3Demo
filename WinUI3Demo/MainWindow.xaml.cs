@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml;
 using System.Linq;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using ABI.Windows.UI;
 using Microsoft.UI.Xaml.Media;
 
 namespace WinUI3Demo
