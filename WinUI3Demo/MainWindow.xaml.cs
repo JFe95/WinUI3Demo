@@ -13,17 +13,41 @@ namespace WinUI3Demo
         private AppWindow _appWindow;
         private OverlappedPresenter _presenter;
 
+        #region Constructor
 
         public MainWindow()
         {
             this.InitializeComponent();
             GetAppWindow();
             _appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 500, Height = 570 });
-            _presenter.IsMaximizable = false;
-            _presenter.IsMinimizable = false;
             _presenter.IsResizable = false;
             _presenter.SetBorderAndTitleBar(false, false);
         }
+
+        #endregion
+
+        #region Events
+
+        private void OnLoginButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (ValidateLogin()) 
+                DisplaySuccessDialog();
+        }
+        private void OnEmailTextChanged(object sender, RoutedEventArgs e)
+        {
+            SetDefaultTextBoxFormatting((TextBox)sender);
+            UsernameErrorTextBlock.Text = string.Empty;
+        }
+
+        private void OnPasswordTextChanged(object sender, RoutedEventArgs e)
+        {
+            SetDefaultPasswordBoxFormatting((PasswordBox)sender);
+            PasswordErrorTextBlock.Text = string.Empty;
+        }
+
+        #endregion
+
+        #region Methods
 
         public void GetAppWindow()
         {
@@ -31,13 +55,7 @@ namespace WinUI3Demo
             WindowId myWndId = Win32Interop.GetWindowIdFromWindow(hWnd);
             _appWindow = AppWindow.GetFromWindowId(myWndId);
             _presenter = _appWindow.Presenter as OverlappedPresenter;
-        }
-
-        private void OnLoginButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (ValidateLogin()) 
-                DisplaySuccessDialog();
-        }
+        }        
 
         private async void DisplaySuccessDialog()
         {
@@ -53,18 +71,6 @@ namespace WinUI3Demo
             Application.Current.Exit();
         }
 
-        private void OnEmailTextChanged(object sender, RoutedEventArgs e)
-        {
-            SetDefaultTextBoxFormatting((Control)sender);
-            UsernameErrorTextBlock.Text = string.Empty;
-        }
-
-        private void OnPasswordTextChanged(object sender, RoutedEventArgs e)
-        {
-            SetDefaultTextBoxFormatting((Control)sender);
-            PasswordErrorTextBlock.Text = string.Empty;
-        }
-
         private bool ValidateLogin() { return ValidateEmail() & ValidatePassword(); }
 
         private bool ValidateEmail()
@@ -72,7 +78,7 @@ namespace WinUI3Demo
             if (string.IsNullOrEmpty(UsernameTextBox.Text))
             {
                 UsernameErrorTextBlock.Text = "Email is a required field";
-                SetDefaultTextBoxFormatting(UsernameTextBox);
+                SetErrorTextBoxFormatting(UsernameTextBox);
                 return false;
             }
             return true;
@@ -83,26 +89,34 @@ namespace WinUI3Demo
             if (string.IsNullOrEmpty(PasswordTextBox.Password))
             {
                 PasswordErrorTextBlock.Text = "Password is a required field";
-                SetErrorTextBoxFormatting(PasswordTextBox);
+                SetErrorPasswordBoxFormatting(PasswordTextBox);
                 return false;
             }
 
             if(!IsStrongPassword(PasswordTextBox.Password))
             {
                 PasswordErrorTextBlock.Text = "Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, and one number";
-                SetErrorTextBoxFormatting(PasswordTextBox);
+                SetErrorPasswordBoxFormatting(PasswordTextBox);
             }
             return true;
         }
 
-        private void SetDefaultTextBoxFormatting(Control textBox)
+        private void SetDefaultTextBoxFormatting(TextBox textBox)
         {
             textBox.Style = (Style)Application.Current.Resources["TextBoxStyle"];
         }
+        private void SetDefaultPasswordBoxFormatting(PasswordBox passwordBox)
+        {
+            passwordBox.Style = (Style)Application.Current.Resources["PasswordBoxStyle"];
+        }
 
-        private void SetErrorTextBoxFormatting(Control textBox)
+        private void SetErrorTextBoxFormatting(TextBox textBox)
         {
             textBox.Style = (Style)Application.Current.Resources["TextBoxErrorStyle"];
+        }
+        private void SetErrorPasswordBoxFormatting(PasswordBox textBox)
+        {
+            textBox.Style = (Style)Application.Current.Resources["PasswordBoxErrorStyle"];
         }
 
         private bool IsStrongPassword(string password)
@@ -115,9 +129,6 @@ namespace WinUI3Demo
             return true;
         }
 
-        private void Button_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-
-        }
+        #endregion
     }
 }
