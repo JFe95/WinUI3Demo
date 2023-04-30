@@ -1,39 +1,106 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
 
+using Microsoft.UI.Windowing;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Windows.UI.Popups;
+using Microsoft.UI.Xaml.Controls;
+using Windows.Devices.Enumeration;
+using System;
 
 namespace WinUI3Demo
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private AppWindow _apw;
+        private OverlappedPresenter _presenter;
+
+
         public MainWindow()
         {
             this.InitializeComponent();
+            this.ExtendsContentIntoTitleBar = true;
+            GetAppWindow();
+            _apw.Resize(new Windows.Graphics.SizeInt32 { Width = 500, Height = 570 });
+            _presenter.IsMaximizable = false;
+            _presenter.IsMinimizable = false;
+            _presenter.IsResizable = false;
+
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        public void GetAppWindow()
         {
-            myButton.Content = "Clicked";
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WindowId myWndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+            _apw = AppWindow.GetFromWindowId(myWndId);
+            _presenter = _apw.Presenter as OverlappedPresenter;
+        }
+
+        private void OnLoginButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (ValidateLogin()) DisplaySuccessDialog();
+        }
+
+        private async void DisplaySuccessDialog()
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "Success",
+                Content = "Account created",
+                CloseButtonText = "OK"              
+            };
+            //set the XamlRoot property
+            dialog.XamlRoot = MainPanel.XamlRoot;
+
+            await dialog.ShowAsync();
+            Application.Current.Exit();
+
+        }
+
+        private void OnEmailTextChanged(object sender, RoutedEventArgs e)
+        {
+            UsernameErrorTextBlock.Text = string.Empty;
+        }
+
+        private void OnPasswordTextChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordErrorTextBlock.Text = string.Empty;
+        }
+
+        private bool ValidateLogin() { return ValidateEmail() & ValidatePassword(); }
+
+        private bool ValidateEmail()
+        {
+            if (string.IsNullOrEmpty(UsernameTextBox.Text))
+            {
+                UsernameErrorTextBlock.Text = "Email cannot be empty";
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidatePassword()
+        {
+            if (string.IsNullOrEmpty(PasswordTextBox.Password))
+            {
+                PasswordErrorTextBlock.Text = "Password cannot be empty";
+                return false;
+            }
+            if(!IsStrongPassword(PasswordTextBox.Password))
+            {
+                PasswordErrorTextBlock.Text = "Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, and one number";
+            }
+            return true;
+        }
+
+        private bool IsStrongPassword(string password)
+        {
+            if(password.Length < 8) return false; // length >= 8
+            if (!password.Any(c => char.IsUpper(c))) return false; // must include upper case letter
+            if (!password.Any(c => char.IsLower(c))) return false; // must include lower case letter
+            if (!password.Any(c => char.IsDigit(c))) return false; // must include a number
+
+            return true;
         }
     }
 }
