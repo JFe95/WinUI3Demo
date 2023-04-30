@@ -1,4 +1,3 @@
-
 <Window
     x:Class="WinUI3Demo.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -24,9 +23,9 @@
         <TextBlock Text="Create your free account" Foreground="White"  FontSize="18" FontWeight="Bold" FontFamily="Trebuchet MS" Padding="0,0,0,20" Margin="50" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
         <StackPanel Name="MainPanel" Grid.Row="2" Grid.Column="1">            
             <TextBox x:Name="UsernameTextBox" PlaceholderText="Email" Style="{StaticResource TextBoxStyle}" TextChanged="OnEmailTextChanged"/>
-            <TextBlock x:Name="UsernameErrorTextBlock" Style="{StaticResource ErrorTextBlock}" />
+            <TextBlock x:Name="UsernameErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" />
             <PasswordBox x:Name="PasswordTextBox"  PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" PasswordChanged="OnPasswordTextChanged"/>
-            <TextBlock x:Name="PasswordErrorTextBlock" Style="{StaticResource ErrorTextBlock}" TextWrapping="WrapWholeWords" />
+            <TextBlock x:Name="PasswordErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" TextWrapping="WrapWholeWords" />
             <TextBlock Text="No credit card required" Foreground="White" FontSize="12" FontFamily="Trebuchet MS" Padding="0,50,0,0" HorizontalAlignment="Center" />
             <Button Content="Free Sign Up" Foreground="Black" Style="{StaticResource SubmitButtonStyle}" HorizontalAlignment="Center" Click="OnLoginButtonClick"/>
         </StackPanel>
