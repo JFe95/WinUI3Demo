@@ -4,6 +4,8 @@ using Microsoft.UI.Xaml;
 using System.Linq;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using ABI.Windows.UI;
+using Microsoft.UI.Xaml.Media;
 
 namespace WinUI3Demo
 {
@@ -11,6 +13,19 @@ namespace WinUI3Demo
     {
         private AppWindow _appWindow;
         private OverlappedPresenter _presenter;
+        private SolidColorBrush _placeholderColorBrush;
+
+        public SolidColorBrush PlaceHolderColorBrush
+        {
+            get
+            {
+                return _placeholderColorBrush;
+            }
+            set 
+            { 
+                _placeholderColorBrush = value; 
+            }
+        } 
 
         #region Constructor
 
@@ -42,6 +57,11 @@ namespace WinUI3Demo
         {
             SetDefaultPasswordBoxFormatting((PasswordBox)sender);
             PasswordErrorTextBlock.Text = string.Empty;
+        }
+
+        private void TextBoxOnFocus(object sender, RoutedEventArgs args)
+        {
+            SetDefaultTextBoxFormatting((TextBox)sender);
         }
 
         #endregion
@@ -117,6 +137,12 @@ namespace WinUI3Demo
         private void SetErrorPasswordBoxFormatting(PasswordBox textBox)
         {
             textBox.Style = (Style)Application.Current.Resources["PasswordBoxErrorStyle"];
+            var placeholderColorBrush = textBox.Resources["TextControlPlaceholderForeground"] as SolidColorBrush;
+            placeholderColorBrush.Color = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
+            placeholderColorBrush = textBox.Resources["TextControlPlaceholderForegroundFocused"] as SolidColorBrush;
+            placeholderColorBrush.Color = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
+            placeholderColorBrush = textBox.Resources["TextControlPlaceholderForegroundPointerOver"] as SolidColorBrush;
+            placeholderColorBrush.Color = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
         }
 
         private bool IsStrongPassword(string password)

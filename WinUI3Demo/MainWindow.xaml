@@ -21,10 +21,16 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Create your free account" Foreground="White"  FontSize="18" FontWeight="Bold" FontFamily="Trebuchet MS" Padding="0,0,0,20" Margin="50" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
-        <StackPanel Name="MainPanel" Grid.Row="2" Grid.Column="1">            
+        <StackPanel Name="MainPanel" Grid.Row="2" Grid.Column="1">
             <TextBox x:Name="UsernameTextBox" PlaceholderText="Email" Style="{StaticResource TextBoxStyle}" TextChanged="OnEmailTextChanged"/>
             <TextBlock x:Name="UsernameErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" />
-            <PasswordBox x:Name="PasswordTextBox"  PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" PasswordChanged="OnPasswordTextChanged"/>
+            <PasswordBox x:Name="PasswordTextBox"  PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" PasswordChanged="OnPasswordTextChanged">
+                <PasswordBox.Resources>
+                    <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="DarkGray"/>
+                    <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="DarkGray"/>
+                    <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="DarkGray"/>
+                </PasswordBox.Resources>
+            </PasswordBox>
             <TextBlock x:Name="PasswordErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" TextWrapping="WrapWholeWords" />
             <TextBlock Text="No credit card required" Foreground="White" FontSize="12" FontFamily="Trebuchet MS" Padding="0,50,0,0" HorizontalAlignment="Center" />
             <Button Content="Free Sign Up" Foreground="Black" Style="{StaticResource SubmitButtonStyle}" HorizontalAlignment="Center" Click="OnLoginButtonClick"/>
