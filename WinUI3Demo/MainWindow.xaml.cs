@@ -136,13 +136,15 @@ namespace WinUI3Demo
         }
         private void SetErrorPasswordBoxFormatting(PasswordBox textBox)
         {
+            var ErrorColor = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
+
             textBox.Style = (Style)Application.Current.Resources["PasswordBoxErrorStyle"];
             var placeholderColorBrush = textBox.Resources["TextControlPlaceholderForeground"] as SolidColorBrush;
-            placeholderColorBrush.Color = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
+            placeholderColorBrush.Color = ErrorColor;
             placeholderColorBrush = textBox.Resources["TextControlPlaceholderForegroundFocused"] as SolidColorBrush;
-            placeholderColorBrush.Color = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
+            placeholderColorBrush.Color = ErrorColor;
             placeholderColorBrush = textBox.Resources["TextControlPlaceholderForegroundPointerOver"] as SolidColorBrush;
-            placeholderColorBrush.Color = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
+            placeholderColorBrush.Color = ErrorColor;
         }
 
         private bool IsStrongPassword(string password)
