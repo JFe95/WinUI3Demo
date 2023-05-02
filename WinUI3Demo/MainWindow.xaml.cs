@@ -58,9 +58,20 @@ namespace WinUI3Demo
             PasswordErrorTextBlock.Text = string.Empty;
         }
 
-        private void TextBoxOnFocus(object sender, RoutedEventArgs args)
+        private void showPassword_PointerPressed(object sender, RoutedEventArgs e)
         {
-            SetDefaultTextBoxFormatting((TextBox)sender);
+            PasswordTextBox.PasswordRevealMode = PasswordRevealMode.Visible;
+            showPassword.ClickMode = ClickMode.Release;
+            showPassword.Click -= showPassword_PointerPressed;
+            showPassword.Click += showPassword_PointerReleased;
+        }
+
+        private void showPassword_PointerReleased(object sender, RoutedEventArgs e)
+        {
+            PasswordTextBox.PasswordRevealMode = PasswordRevealMode.Hidden;
+            showPassword.ClickMode = ClickMode.Press;           
+            showPassword.Click -= showPassword_PointerReleased;
+            showPassword.Click += showPassword_PointerPressed;
         }
 
         #endregion
@@ -157,5 +168,7 @@ namespace WinUI3Demo
         }
 
         #endregion
+
+        
     }
 }

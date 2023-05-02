@@ -24,13 +24,16 @@
         <StackPanel Name="MainPanel" Grid.Row="2" Grid.Column="1">
             <TextBox x:Name="UsernameTextBox" PlaceholderText="Email" Style="{StaticResource TextBoxStyle}" TextChanged="OnEmailTextChanged"/>
             <TextBlock x:Name="UsernameErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" />
-            <PasswordBox x:Name="PasswordTextBox"  PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" PasswordChanged="OnPasswordTextChanged">
+            <PasswordBox x:Name="PasswordTextBox"  PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" IsPasswordRevealButtonEnabled="False" PasswordChanged="OnPasswordTextChanged">
                 <PasswordBox.Resources>
                     <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="DarkGray"/>
                     <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="DarkGray"/>
                     <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="DarkGray"/>
                 </PasswordBox.Resources>
             </PasswordBox>
+            <Button Margin="0,-32,0,0" x:Name="showPassword" Background="{Binding Background, Mode=OneWay, ElementName=PasswordTextBox}" Click="showPassword_PointerPressed" ClickMode="Press" HorizontalAlignment="Right" >
+                <Image IsHitTestVisible="False" Source="Assets/view.png" Height="19"/>
+            </Button>            
             <TextBlock x:Name="PasswordErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" TextWrapping="WrapWholeWords" />
             <TextBlock Text="No credit card required" Foreground="White" FontSize="12" FontFamily="Trebuchet MS" Padding="0,50,0,0" HorizontalAlignment="Center" />
             <Button Content="Free Sign Up" Foreground="Black" Style="{StaticResource SubmitButtonStyle}" HorizontalAlignment="Center" Click="OnLoginButtonClick"/>

@@ -8,6 +8,8 @@
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
         <Setter Property="BorderBrush" Value="DarkGray" />
         <Setter Property="Foreground" Value="DarkGray" />
+        <Setter Property="PlaceholderForeground" Value="DarkGray" />
+        <Setter Property="Background" Value="Black" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="3" />
         <Setter Property="FontSize" Value="12"/>        
@@ -26,12 +28,12 @@
     <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
         <Setter Property="BorderBrush" Value="DarkGray" />
         <Setter Property="Foreground" Value="DarkGray" />
+        <Setter Property="Background" Value="Black" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="3" />
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontFamily" Value="Trebuchet MS"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-
     </Style>
 
     <Style x:Key="PasswordBoxErrorStyle" TargetType="PasswordBox" BasedOn="{StaticResource PasswordBoxStyle}">
@@ -53,6 +55,7 @@
         <Setter Property="Foreground" Value="{StaticResource ErrorColor}" />
         <Setter Property="FontSize" Value="11"/>
         <Setter Property="Padding" Value="0,3,0,7" />
+        <Setter Property="Margin" Value="10,0,0,0" />
     </Style>
     
 </ResourceDictionary>
