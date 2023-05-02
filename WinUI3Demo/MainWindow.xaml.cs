@@ -82,10 +82,12 @@ namespace WinUI3Demo
             presenter.IsResizable = false;
             presenter.SetBorderAndTitleBar(false, false);
 
-            PointInt32 CenteredPosition = appWindow.Position;
-            CenteredPosition.X = (displayArea.WorkArea.Width - appWindow.Size.Width) / 2;
-            CenteredPosition.Y = (displayArea.WorkArea.Height - appWindow.Size.Height) / 2;
-            appWindow.Move(CenteredPosition);
+            var centeredPosition = new PointInt32()
+            {
+                X = (displayArea.WorkArea.Width - appWindow.Size.Width) / 2,
+                Y = (displayArea.WorkArea.Height - appWindow.Size.Height) / 2
+            };
+            appWindow.Move(centeredPosition);
 
         }
 
