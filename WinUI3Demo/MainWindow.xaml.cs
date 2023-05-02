@@ -5,23 +5,20 @@ using System.Linq;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Microsoft.UI.Xaml.Media;
+using Windows.Graphics;
+using WinRT.Interop;
 
 namespace WinUI3Demo
 {
     public sealed partial class MainWindow : Window
     {
-        private AppWindow _appWindow;
-        private OverlappedPresenter _presenter;
 
         #region Constructor
 
         public MainWindow()
         {
             this.InitializeComponent();
-            GetAppWindow();
-            _appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 500, Height = 570 });
-            _presenter.IsResizable = false;
-            _presenter.SetBorderAndTitleBar(false, false);
+            ResizeAndCenterWindow();            
         }
 
         #endregion
@@ -73,13 +70,24 @@ namespace WinUI3Demo
 
         #region Methods
 
-        public void GetAppWindow()
+        public void ResizeAndCenterWindow()
         {
-            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            WindowId myWndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-            _appWindow = AppWindow.GetFromWindowId(myWndId);
-            _presenter = _appWindow.Presenter as OverlappedPresenter;
-        }        
+            var windowHandle = WindowNative.GetWindowHandle(this);
+            var windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
+            var appWindow = AppWindow.GetFromWindowId(windowId);
+            var presenter = appWindow.Presenter as OverlappedPresenter;
+            var displayArea = DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest);
+
+            appWindow.Resize(new SizeInt32 { Width = 500, Height = 570 });
+            presenter.IsResizable = false;
+            presenter.SetBorderAndTitleBar(false, false);
+
+            PointInt32 CenteredPosition = appWindow.Position;
+            CenteredPosition.X = (displayArea.WorkArea.Width - appWindow.Size.Width) / 2;
+            CenteredPosition.Y = (displayArea.WorkArea.Height - appWindow.Size.Height) / 2;
+            appWindow.Move(CenteredPosition);
+
+        }
 
         private async void DisplaySuccessDialog()
         {
