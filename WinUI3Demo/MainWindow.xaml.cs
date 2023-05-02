@@ -58,20 +58,20 @@ namespace WinUI3Demo
             PasswordErrorTextBlock.Text = string.Empty;
         }
 
-        private void ShowPassword_PointerPressed(object sender, RoutedEventArgs e)
+        private void ShowPasswordButton_PointerPressed(object sender, RoutedEventArgs e)
         {
             PasswordTextBox.PasswordRevealMode = PasswordRevealMode.Visible;
-            ShowPassword.ClickMode = ClickMode.Release;
-            ShowPassword.Click -= ShowPassword_PointerPressed;
-            ShowPassword.Click += ShowPassword_PointerReleased;
+            ShowPasswordButton.ClickMode = ClickMode.Release;
+            ShowPasswordButton.Click -= ShowPasswordButton_PointerPressed;
+            ShowPasswordButton.Click += ShowPasswordButton_PointerReleased;
         }
 
-        private void ShowPassword_PointerReleased(object sender, RoutedEventArgs e)
+        private void ShowPasswordButton_PointerReleased(object sender, RoutedEventArgs e)
         {
             PasswordTextBox.PasswordRevealMode = PasswordRevealMode.Hidden;
-            ShowPassword.ClickMode = ClickMode.Press;
-            ShowPassword.Click -= ShowPassword_PointerReleased;
-            ShowPassword.Click += ShowPassword_PointerPressed;
+            ShowPasswordButton.ClickMode = ClickMode.Press;
+            ShowPasswordButton.Click -= ShowPasswordButton_PointerReleased;
+            ShowPasswordButton.Click += ShowPasswordButton_PointerPressed;
         }
 
         #endregion
