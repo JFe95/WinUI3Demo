@@ -31,7 +31,7 @@
                     <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="DarkGray"/>
                 </PasswordBox.Resources>
             </PasswordBox>
-            <Button Margin="0,-32,0,0" x:Name="showPassword" Background="{Binding Background, Mode=OneWay, ElementName=PasswordTextBox}" Click="showPassword_PointerPressed" ClickMode="Press" HorizontalAlignment="Right" >
+            <Button Margin="0,-32,0,0" x:Name="ShowPasswordButton" Background="{Binding Background, Mode=OneWay, ElementName=PasswordTextBox}" Click="ShowPasswordButton_PointerPressed" ClickMode="Press" HorizontalAlignment="Right" >
                 <Image IsHitTestVisible="False" Source="Assets/view.png" Height="19"/>
             </Button>            
             <TextBlock x:Name="PasswordErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" TextWrapping="WrapWholeWords" />
