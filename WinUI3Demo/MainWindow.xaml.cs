@@ -12,19 +12,6 @@ namespace WinUI3Demo
     {
         private AppWindow _appWindow;
         private OverlappedPresenter _presenter;
-        private SolidColorBrush _placeholderColorBrush;
-
-        public SolidColorBrush PlaceHolderColorBrush
-        {
-            get
-            {
-                return _placeholderColorBrush;
-            }
-            set 
-            { 
-                _placeholderColorBrush = value; 
-            }
-        } 
 
         #region Constructor
 
@@ -72,6 +59,14 @@ namespace WinUI3Demo
             ShowPasswordButton.ClickMode = ClickMode.Press;
             ShowPasswordButton.Click -= ShowPasswordButton_PointerReleased;
             ShowPasswordButton.Click += ShowPasswordButton_PointerPressed;
+        }
+
+        private void TextBox_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                OnLoginButtonClick(sender, e);
+            }
         }
 
         #endregion
@@ -167,8 +162,7 @@ namespace WinUI3Demo
             return true;
         }
 
-        #endregion
 
-        
+        #endregion        
     }
 }

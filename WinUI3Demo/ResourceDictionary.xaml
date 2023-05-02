@@ -12,10 +12,9 @@
         <Setter Property="Background" Value="Black" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="3" />
-        <Setter Property="FontSize" Value="12"/>        
-        <Setter Property="FontFamily" Value="Trebuchet MS"/>        
-        <Setter Property="VerticalAlignment" Value="Center"/>   
-        
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="Trebuchet MS"/>
+
     </Style>
 
     <Style x:Key="TextBoxErrorStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
@@ -33,7 +32,6 @@
         <Setter Property="CornerRadius" Value="3" />
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontFamily" Value="Trebuchet MS"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <Style x:Key="PasswordBoxErrorStyle" TargetType="PasswordBox" BasedOn="{StaticResource PasswordBoxStyle}">

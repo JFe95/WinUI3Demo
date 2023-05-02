@@ -22,9 +22,9 @@
 
         <TextBlock Text="Create your free account" Foreground="White"  FontSize="18" FontWeight="Bold" FontFamily="Trebuchet MS" Padding="0,0,0,20" Margin="50" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
         <StackPanel Name="MainPanel" Grid.Row="2" Grid.Column="1">
-            <TextBox x:Name="UsernameTextBox" PlaceholderText="Email" Style="{StaticResource TextBoxStyle}" TextChanged="OnEmailTextChanged"/>
+            <TextBox x:Name="UsernameTextBox" PlaceholderText="Email" Style="{StaticResource TextBoxStyle}" KeyDown="TextBox_KeyDown" TextChanged="OnEmailTextChanged"/>
             <TextBlock x:Name="UsernameErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" />
-            <PasswordBox x:Name="PasswordTextBox"  PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" IsPasswordRevealButtonEnabled="False" PasswordChanged="OnPasswordTextChanged">
+            <PasswordBox x:Name="PasswordTextBox" PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" KeyDown="TextBox_KeyDown" IsPasswordRevealButtonEnabled="False" PasswordChanged="OnPasswordTextChanged">
                 <PasswordBox.Resources>
                     <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="DarkGray"/>
                     <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="DarkGray"/>
