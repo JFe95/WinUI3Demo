@@ -36,7 +36,7 @@
             </Button>            
             <TextBlock x:Name="PasswordErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" TextWrapping="WrapWholeWords" />
             <TextBlock Text="No credit card required" Foreground="White" FontSize="12" FontFamily="Trebuchet MS" Padding="0,50,0,0" HorizontalAlignment="Center" />
-            <Button Content="Free Sign Up" Foreground="Black" Style="{StaticResource SubmitButtonStyle}" HorizontalAlignment="Center" Click="OnLoginButtonClick"/>
+            <Button Content="Free Sign Up" Foreground="Black" Style="{StaticResource SubmitButtonStyle}" Margin="10" HorizontalAlignment="Center" Click="OnLoginButtonClick"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -14,14 +14,12 @@
         <Setter Property="CornerRadius" Value="3" />
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontFamily" Value="Trebuchet MS"/>
-
     </Style>
 
     <Style x:Key="TextBoxErrorStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
         <Setter Property="BorderBrush" Value="{StaticResource ErrorColor}" />
         <Setter Property="Foreground" Value="{StaticResource ErrorColor}" />
         <Setter Property="PlaceholderForeground" Value="{StaticResource ErrorColor}" />
-
     </Style>
 
     <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
@@ -45,7 +43,6 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontFamily" Value="Trebuchet MS" />
         <Setter Property="Padding" Value="40,7,40,7" />
-        <Setter Property="Margin" Value="10" />
         <Setter Property="CornerRadius" Value="15" />
     </Style>
 
