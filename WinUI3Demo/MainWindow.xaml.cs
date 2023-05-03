@@ -149,16 +149,16 @@ namespace WinUI3Demo
         {
             textBox.Style = (Style)Application.Current.Resources["TextBoxErrorStyle"];
         }
-        private void SetErrorPasswordBoxFormatting(PasswordBox textBox)
+        private void SetErrorPasswordBoxFormatting(PasswordBox passwordBox)
         {
             var ErrorColor = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
 
-            textBox.Style = (Style)Application.Current.Resources["PasswordBoxErrorStyle"];
-            var placeholderColorBrush = textBox.Resources["TextControlPlaceholderForeground"] as SolidColorBrush;
+            passwordBox.Style = (Style)Application.Current.Resources["PasswordBoxErrorStyle"];
+            var placeholderColorBrush = passwordBox.Resources["TextControlPlaceholderForeground"] as SolidColorBrush;
             placeholderColorBrush.Color = ErrorColor;
-            placeholderColorBrush = textBox.Resources["TextControlPlaceholderForegroundFocused"] as SolidColorBrush;
+            placeholderColorBrush = passwordBox.Resources["TextControlPlaceholderForegroundFocused"] as SolidColorBrush;
             placeholderColorBrush.Color = ErrorColor;
-            placeholderColorBrush = textBox.Resources["TextControlPlaceholderForegroundPointerOver"] as SolidColorBrush;
+            placeholderColorBrush = passwordBox.Resources["TextControlPlaceholderForegroundPointerOver"] as SolidColorBrush;
             placeholderColorBrush.Color = ErrorColor;
         }
 
