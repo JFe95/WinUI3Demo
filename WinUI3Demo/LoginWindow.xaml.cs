@@ -1,7 +1,6 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using System.Linq;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Microsoft.UI.Xaml.Media;
@@ -10,15 +9,21 @@ using WinRT.Interop;
 
 namespace WinUI3Demo
 {
-    public sealed partial class MainWindow : Window
+    public sealed partial class LoginWindow : Window
     {
+        #region Properties
+
+        public LoginViewModel ViewModel { get; } = new();
+
+        #endregion
 
         #region Constructor
 
-        public MainWindow()
+        public LoginWindow()
         {
             this.InitializeComponent();
-            ResizeAndCenterWindow();            
+            ResizeAndCenterWindow();
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         #endregion
@@ -27,19 +32,19 @@ namespace WinUI3Demo
 
         private void OnLoginButtonClick(object sender, RoutedEventArgs e)
         {
-            if (ValidateLogin()) 
+            if (ViewModel.ValidateLogin()) 
                 DisplaySuccessDialog();
         }
         private void OnEmailTextChanged(object sender, RoutedEventArgs e)
         {
             SetDefaultTextBoxFormatting((TextBox)sender);
-            UsernameErrorTextBlock.Text = string.Empty;
+            ViewModel.EmailErrorText = string.Empty;
         }
 
         private void OnPasswordTextChanged(object sender, RoutedEventArgs e)
         {
             SetDefaultPasswordBoxFormatting((PasswordBox)sender);
-            PasswordErrorTextBlock.Text = string.Empty;
+            ViewModel.PasswordErrorText = string.Empty;
         }
 
         private void ShowPasswordButton_PointerPressed(object sender, RoutedEventArgs e)
@@ -65,12 +70,26 @@ namespace WinUI3Demo
                 OnLoginButtonClick(sender, e);
             }
         }
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is not LoginViewModel viewModel) return;
+
+            if (string.IsNullOrEmpty(viewModel.EmailErrorText))
+                SetDefaultTextBoxFormatting(EmailTextBox);
+            else
+                SetErrorTextBoxFormatting(EmailTextBox);
+
+            if (string.IsNullOrEmpty(viewModel.PasswordErrorText))
+                SetDefaultPasswordBoxFormatting(PasswordTextBox);
+            else
+                SetErrorPasswordBoxFormatting(PasswordTextBox);
+        }
 
         #endregion
 
         #region Methods
 
-        public void ResizeAndCenterWindow()
+        private void ResizeAndCenterWindow()
         {
             var windowHandle = WindowNative.GetWindowHandle(this);
             var windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
@@ -105,37 +124,6 @@ namespace WinUI3Demo
             Application.Current.Exit();
         }
 
-        private bool ValidateLogin() { return ValidateEmail() & ValidatePassword(); }
-
-        private bool ValidateEmail()
-        {
-            if (string.IsNullOrEmpty(UsernameTextBox.Text))
-            {
-                UsernameErrorTextBlock.Text = "Email is a required field";
-                SetErrorTextBoxFormatting(UsernameTextBox);
-                return false;
-            }
-            return true;
-        }
-
-        private bool ValidatePassword()
-        {
-            if (string.IsNullOrEmpty(PasswordTextBox.Password))
-            {
-                PasswordErrorTextBlock.Text = "Password is a required field";
-                SetErrorPasswordBoxFormatting(PasswordTextBox);
-                return false;
-            }
-
-            if(!IsStrongPassword(PasswordTextBox.Password))
-            {
-                PasswordErrorTextBlock.Text = "Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, and one number";
-                SetErrorPasswordBoxFormatting(PasswordTextBox);
-                return false;
-            }
-            return true;
-        }
-
         private void SetDefaultTextBoxFormatting(TextBox textBox)
         {
             textBox.Style = (Style)Application.Current.Resources["TextBoxStyle"];
@@ -162,17 +150,6 @@ namespace WinUI3Demo
             placeholderColorBrush.Color = ErrorColor;
         }
 
-        private bool IsStrongPassword(string password)
-        {
-            if(password.Length < 8) return false; // length >= 8
-            if (!password.Any(c => char.IsUpper(c))) return false; // must include upper case letter
-            if (!password.Any(c => char.IsLower(c))) return false; // must include lower case letter
-            if (!password.Any(c => char.IsDigit(c))) return false; // must include a number
-
-            return true;
-        }
-
-
-        #endregion        
+        #endregion
     }
 }

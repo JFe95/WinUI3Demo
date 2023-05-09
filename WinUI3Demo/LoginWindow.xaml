@@ -1,12 +1,12 @@
 <Window
-    x:Class="WinUI3Demo.MainWindow"
+    x:Class="WinUI3Demo.LoginWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" >
 
-    <Grid Background="Black">
+    <Grid Background="Black" DataContext="{x:Bind ViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="75" />
             <RowDefinition Height="Auto" />
@@ -22,21 +22,21 @@
 
         <TextBlock Text="Create your free account" Foreground="White"  FontSize="18" FontWeight="Bold" FontFamily="Trebuchet MS" Padding="0,0,0,20" Margin="50" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
         <StackPanel Name="MainPanel" Grid.Row="2" Grid.Column="1">
-            <TextBox x:Name="UsernameTextBox" PlaceholderText="Email" Style="{StaticResource TextBoxStyle}" KeyDown="TextBox_KeyDown" TextChanged="OnEmailTextChanged"/>
-            <TextBlock x:Name="UsernameErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" />
-            <PasswordBox x:Name="PasswordTextBox" PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" KeyDown="TextBox_KeyDown" IsPasswordRevealButtonEnabled="False" PasswordChanged="OnPasswordTextChanged">
+            <TextBox x:Name="EmailTextBox" PlaceholderText="Email" Text="{Binding Email, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}" KeyDown="TextBox_KeyDown" TextChanged="OnEmailTextChanged"/>
+            <TextBlock Text="{Binding EmailErrorText}" Style="{StaticResource ErrorTextBlockStyle}"/>
+            <PasswordBox x:Name="PasswordTextBox" PlaceholderText="Password" Password="{Binding Password, Mode=TwoWay}" Style="{StaticResource PasswordBoxStyle}" KeyDown="TextBox_KeyDown" IsPasswordRevealButtonEnabled="False" PasswordChanged="OnPasswordTextChanged">
                 <PasswordBox.Resources>
                     <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="DarkGray"/>
                     <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="DarkGray"/>
                     <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="DarkGray"/>
                 </PasswordBox.Resources>
             </PasswordBox>
-            <Button Margin="0,-32,0,0" x:Name="ShowPasswordButton" Background="{Binding Background, Mode=OneWay, ElementName=PasswordTextBox}" Click="ShowPasswordButton_PointerPressed" ClickMode="Press" HorizontalAlignment="Right" >
+            <Button Margin="0,-32,0,0" x:Name="ShowPasswordButton" Background="{Binding Background, Mode=OneWay, ElementName=PasswordTextBox}" Click="ShowPasswordButton_PointerPressed" ClickMode="Press" HorizontalAlignment="Right">
                 <Image IsHitTestVisible="False" Source="Assets/view.png" Height="19"/>
-            </Button>            
-            <TextBlock x:Name="PasswordErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" TextWrapping="WrapWholeWords" />
-            <TextBlock Text="No credit card required" Foreground="White" FontSize="12" FontFamily="Trebuchet MS" Padding="0,50,0,0" HorizontalAlignment="Center" />
-            <Button Content="Free Sign Up" Foreground="Black" Style="{StaticResource SubmitButtonStyle}" Margin="10" HorizontalAlignment="Center" Click="OnLoginButtonClick"/>
+            </Button>
+            <TextBlock Text="{Binding PasswordErrorText}" Style="{StaticResource ErrorTextBlockStyle}" TextWrapping="WrapWholeWords"/>
+            <TextBlock Text="No credit card required" Foreground="White" FontSize="12" FontFamily="Trebuchet MS" Padding="0,50,0,0" HorizontalAlignment="Center"/>
+            <Button Content="Free Sign Up" Style="{StaticResource SubmitButtonStyle}" Margin="10" HorizontalAlignment="Center" Click="OnLoginButtonClick"/>
         </StackPanel>
     </Grid>
 </Window>
